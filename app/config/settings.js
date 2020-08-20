@@ -2,13 +2,13 @@ import Constants from "expo-constants";
 
 const settings = {
   dev: {
-    apiUrl: "https://api.jsonbin.io/",
+    apiUrl: "https://api.jsonbin.io",
   },
   staging: {
-    apiUrl: "https://api.jsonbin.io/",
+    apiUrl: "https://api.jsonbin.io",
   },
   prod: {
-    apiUrl: "https://api.jsonbin.io/",
+    apiUrl: "https://api.jsonbin.io",
   },
 };
 

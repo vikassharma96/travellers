@@ -1,22 +1,73 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, FlatList, Button, TextInput } from "react-native";
 
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
-import AppTextInput from "../components/AppTextInput";
+import Card from "../components/Card";
 import colors from "../config/colors";
+import constants from "../utility/constants";
+import useApi from "../hooks/useApi";
+import travellersApi from "../api/travellers";
+import routes from "../navigation/routes";
+import { FontAwesome } from "@expo/vector-icons";
+import Indicator from "../components/Indicator";
 
-function TravellersScreen() {
+function TravellersScreen({ navigation }) {
+  // const getTravellersApi = useApi(travellersApi.getTravellers);
+  const [travellers, setTravellers] = useState([]);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // getTravellersApi.request();
+    getTravellers();
+  }, []);
+
+  const getTravellers = async () => {
+    setLoading(true);
+    const response = await travellersApi.getTravellers();
+    setLoading(false);
+
+    if (!response.ok) return setError(true);
+
+    setError(false);
+    setTravellers(response.data);
+  };
+
   return (
     <Screen>
       <AppText style={styles.header}>OUR Travellers</AppText>
       <View style={styles.container}>
-        <AppTextInput
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="search"
-          keyboardType="email-address"
-          width="90%"
+        <View style={styles.inputContainer}>
+          <FontAwesome
+            name="search"
+            size={25}
+            color={colors.light_blue}
+            style={styles.icon}
+          />
+          <TextInput style={styles.input} />
+        </View>
+        {error && (
+          <>
+            <AppText>{constants.something_went_wrong}</AppText>
+            <Button title="Retry" onPress={getTravellers} />
+          </>
+        )}
+        <Indicator visible={loading} />
+        <FlatList
+          data={travellers}
+          keyExtractor={(traveller) => traveller.id.toString()}
+          renderItem={({ item }) => (
+            <Card
+              name={item.first_name}
+              phone={item.phone_number}
+              email={item.email}
+              gender={`${item.gender}`.toLowerCase()}
+              onPress={() =>
+                navigation.navigate(routes.TRAVELLER_DETAILS, item)
+              }
+            />
+          )}
         />
       </View>
     </Screen>
@@ -33,6 +84,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     marginTop: 15,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    padding: 15,
+    marginTop: 10,
+    marginStart: 20,
+    marginEnd: 20,
+    borderWidth: 1,
+    borderColor: colors.light_blue,
+  },
+  input: {
+    flex: 1,
+    marginStart: 10,
+    fontSize: 16,
   },
 });
 

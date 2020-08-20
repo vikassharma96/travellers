@@ -3,8 +3,8 @@ import colors from "./colors";
 export default {
   colors,
   text: {
-    color: colors.dark,
-    fontSize: 18,
+    color: colors.light_blue,
+    fontSize: 16,
     fontFamily: "poppins-medium",
   },
 };

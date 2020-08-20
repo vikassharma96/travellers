@@ -9,12 +9,12 @@ const Stack = createStackNavigator();
 const AppNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name="TravellersScreen"
+      name="Travellers"
       component={TravellersScreen}
       options={{ headerShown: false }}
     />
     <Stack.Screen
-      name="TraverllerDetailsScreen"
+      name="TravellerDetails"
       component={TraverllerDetailsScreen}
       options={{ headerShown: false }}
     />

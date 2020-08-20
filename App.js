@@ -5,6 +5,7 @@ import { navigationRef } from "./app/navigation/rootNavigation";
 import { AppLoading } from "expo";
 import navigationTheme from "./app/navigation/navigationTheme";
 import AppNavigator from "./app/navigation/AppNavigator";
+import Offline from "./app/components/Offline";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -17,6 +18,7 @@ export default function App() {
 
   return (
     <NavigationContainer ref={navigationRef} theme={navigationTheme}>
+      <Offline />
       <AppNavigator />
     </NavigationContainer>
   );

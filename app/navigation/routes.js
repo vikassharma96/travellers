@@ -1,4 +1,4 @@
 export default Object.freeze({
   TRAVELLERS: "Travellers",
-  TRAVELLERDETAILS: "TravellerDetails",
+  TRAVELLER_DETAILS: "TravellerDetails",
 });

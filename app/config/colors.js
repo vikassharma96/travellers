@@ -10,4 +10,5 @@ export default {
   light_red: "#E65E69",
   light_blue: "#7177CA",
   dark_blue: "#23254D",
+  light_red: "#fc5c65",
 };
