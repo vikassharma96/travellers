@@ -15,6 +15,7 @@ import Indicator from "../components/Indicator";
 function TravellersScreen({ navigation }) {
   // const getTravellersApi = useApi(travellersApi.getTravellers);
   const [travellers, setTravellers] = useState([]);
+  const [tempTravellers, setTempTravellers] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -32,6 +33,22 @@ function TravellersScreen({ navigation }) {
 
     setError(false);
     setTravellers(response.data);
+    setTempTravellers(response.data);
+  };
+
+  const searchTravellers = (value) => {
+    const filteredTravellers = tempTravellers.filter((traveller) => {
+      let filter = (
+        traveller.first_name +
+        " " +
+        traveller.last_name
+      ).toLowerCase();
+
+      let search = value.toLowerCase();
+
+      return filter.indexOf(search) > -1;
+    });
+    setTravellers(filteredTravellers);
   };
 
   return (
@@ -45,7 +62,12 @@ function TravellersScreen({ navigation }) {
             color={colors.light_blue}
             style={styles.icon}
           />
-          <TextInput style={styles.input} />
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={colors.light_blue}
+            style={styles.input}
+            onChangeText={(value) => searchTravellers(value)}
+          />
         </View>
         {error && (
           <>
@@ -59,7 +81,7 @@ function TravellersScreen({ navigation }) {
           keyExtractor={(traveller) => traveller.id.toString()}
           renderItem={({ item }) => (
             <Card
-              name={item.first_name}
+              name={`${item.first_name} ${item.last_name}`}
               phone={item.phone_number}
               email={item.email}
               gender={`${item.gender}`.toLowerCase()}
@@ -97,7 +119,8 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     marginStart: 10,
-    fontSize: 16,
+    fontSize: 18,
+    fontFamily: "poppins-medium",
   },
 });
 
